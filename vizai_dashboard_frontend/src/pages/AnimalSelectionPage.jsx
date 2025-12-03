@@ -20,8 +20,8 @@ export default function AnimalSelectionPage() {
 
   if (loading) return <div>Loading...</div>;
   return (
-    <div style={{ maxWidth: 860 }}>
-      <h2>Select Animal</h2>
+    <div className="content-card">
+      <h2 style={{ marginTop: 0 }}>Select Animal</h2>
       <Card>
         <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <img src={profile.photo_url} width="240" height="135" alt="Giant Anteater" style={{ borderRadius: 8, objectFit: 'cover' }} />

@@ -4,6 +4,7 @@ import Button from '../components/common/Button';
 import { useApp } from '../context/AppContext';
 import BehaviorDurationChart from '../components/charts/BehaviorDurationChart';
 import BehaviorCountsBar from '../components/charts/BehaviorCountsBar';
+import FiltersPanel from '../components/common/FiltersPanel';
 
 // PUBLIC_INTERFACE
 export default function ReportsPage() {
@@ -45,47 +46,55 @@ export default function ReportsPage() {
   };
 
   return (
-    <div style={{ display: 'grid', gap: 16 }}>
-      <Card title="Report Builder">
-        <div className="form-row" style={{ marginBottom: 12 }}>
-          <label className="small">Report Type</label>
-          <select className="select" value={type} onChange={(e)=>setType(e.target.value)}>
-            <option value="daily">Daily Summary</option>
-            <option value="weekly">Weekly Trend</option>
-            <option value="monthly">Monthly Trend</option>
-            <option value="behavior">Behavior-Specific Analysis</option>
-            <option value="welfare">Welfare Assessment</option>
-          </select>
-          <label className="small">Behaviors</label>
-          <select multiple className="select" value={behaviors} onChange={(e)=>setBehaviors(Array.from(e.target.selectedOptions).map(o=>o.value))}>
-            {['Pacing','Recumbent','Scratching','Self-directed'].map(b=><option key={b} value={b}>{b}</option>)}
-          </select>
-          <label className="small">Chart Style</label>
-          <select className="select" value={style} onChange={(e)=>setStyle(e.target.value)}>
-            <option value="stacked">Stacked Bars</option>
-            <option value="pie">Pie</option>
-          </select>
-          <label className="small">Schedule (email)</label>
-          <input className="input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="optional" />
-          <Button onClick={onGenerate} disabled={generating}>{generating ? 'Generating...' : 'Generate'}</Button>
-        </div>
-      </Card>
-
-      <Card title="Preview">
-        {style === 'stacked' ? <BehaviorDurationChart data={summary} /> : <BehaviorCountsBar data={summary} />}
-      </Card>
-
-      {download && (
-        <Card title="Export">
-          <div className="form-row">
-            <a className="btn" href={download} target="_blank" rel="noreferrer">Download PDF</a>
-            <a className="btn ghost" href={download.replace('.pdf','.xlsx')} target="_blank" rel="noreferrer">Download Excel</a>
-            <a className="btn ghost" href={download.replace('.pdf','.csv')} target="_blank" rel="noreferrer">Download CSV</a>
-            <a className="btn ghost" href={download.replace('.pdf','.pptx')} target="_blank" rel="noreferrer">Download PPTX</a>
+    <>
+      <div>
+        <FiltersPanel />
+      </div>
+      <div>
+        <div className="content-card">
+          <div className="section-header">
+            <h2 style={{ margin: 0 }}>Reports</h2>
           </div>
-        </Card>
-      )}
-    </div>
+          <div className="form-row" style={{ marginBottom: 12 }}>
+            <label className="label">Report Type</label>
+            <select className="select" value={type} onChange={(e)=>setType(e.target.value)}>
+              <option value="daily">Daily Summary</option>
+              <option value="weekly">Weekly Trend</option>
+              <option value="monthly">Monthly Trend</option>
+              <option value="behavior">Behavior-Specific Analysis</option>
+              <option value="welfare">Welfare Assessment</option>
+            </select>
+            <label className="label">Behaviors</label>
+            <select multiple className="select" value={behaviors} onChange={(e)=>setBehaviors(Array.from(e.target.selectedOptions).map(o=>o.value))}>
+              {['Pacing','Recumbent','Scratching','Self-directed'].map(b=><option key={b} value={b}>{b}</option>)}
+            </select>
+            <label className="label">Chart Style</label>
+            <select className="select" value={style} onChange={(e)=>setStyle(e.target.value)}>
+              <option value="stacked">Stacked Bars</option>
+              <option value="pie">Pie</option>
+            </select>
+            <label className="label">Schedule (email)</label>
+            <input className="input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="optional" />
+            <Button onClick={onGenerate} disabled={generating}>{generating ? 'Generating...' : 'Generate'}</Button>
+          </div>
+
+          <Card title="Preview">
+            {style === 'stacked' ? <BehaviorDurationChart data={summary} /> : <BehaviorCountsBar data={summary} />}
+          </Card>
+
+          {download && (
+            <Card title="Export">
+              <div className="form-row">
+                <a className="btn" href={download} target="_blank" rel="noreferrer">Download PDF</a>
+                <a className="btn ghost" href={download.replace('.pdf','.xlsx')} target="_blank" rel="noreferrer">Download Excel</a>
+                <a className="btn ghost" href={download.replace('.pdf','.csv')} target="_blank" rel="noreferrer">Download CSV</a>
+                <a className="btn ghost" href={download.replace('.pdf','.pptx')} target="_blank" rel="noreferrer">Download PPTX</a>
+              </div>
+            </Card>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 

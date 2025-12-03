@@ -11,6 +11,8 @@ const AnimalSelectionPage = lazy(() => import('./pages/AnimalSelectionPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const TimelinePage = lazy(() => import('./pages/TimelinePage'));
 const ReportsPage = lazy(() => import('./pages/ReportsPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 
 // PUBLIC_INTERFACE
 export default function App() {
@@ -20,15 +22,21 @@ export default function App() {
         <ReconnectBanner />
         <Suspense fallback={<div style={{ padding: 24 }}>Loading...</div>}>
           <Routes>
+            {/* New explicit auth routes per UI flow */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            {/* Keep legacy /auth route for compatibility */}
             <Route path="/auth" element={<AuthPage />} />
             <Route element={<AppLayout />}>
-              <Route path="/" element={<Navigate to="/animals" replace />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/animals" element={<AnimalSelectionPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/timeline" element={<TimelinePage />} />
               <Route path="/reports" element={<ReportsPage />} />
+              {/* Alerts stub for nav alignment */}
+              <Route path="/alerts" element={<div className="content-card"><h2>Alerts</h2><div className="small">Coming soon</div></div>} />
             </Route>
-            <Route path="*" element={<Navigate to="/animals" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
