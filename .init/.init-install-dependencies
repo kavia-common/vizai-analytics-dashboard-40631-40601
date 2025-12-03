@@ -1,0 +1,4 @@
+{
+    "command": "npm install",
+    "working_directory": "/home/kavia/workspace/code-generation/vizai-analytics-dashboard-40631-40601/vizai_dashboard_frontend"
+}
